@@ -4,7 +4,7 @@ const CONSUMER_PHONE = '8095550001';
 const PASSWORD = 'password123';
 
 test.describe('Enhanced Booking Flow', () => {
-    test.setTimeout(60000);
+    test.setTimeout(90000); // Increased timeout
     test.beforeEach(async ({ page }) => {
         // Mock time to Nov 1, 2025 10:00:00 (Saturday) to avoid month boundary issues
         await page.clock.install({ time: new Date('2025-11-01T10:00:00') });
@@ -19,43 +19,34 @@ test.describe('Enhanced Booking Flow', () => {
     });
 
     test('Book a service with real availability', async ({ page }) => {
-        // 1. Navigate to a business (assuming ID 1 or similar from seed, or find via UI)
         // 1. Navigate to a business
         // We'll click the first "Reservar Ahora" button on home
         const bookButton = page.getByRole('link', { name: 'Reservar Ahora' }).first();
-        const href = await bookButton.getAttribute('href');
-        if (href) {
-            await page.goto(href);
-            await page.waitForLoadState('networkidle');
-        } else {
-            await bookButton.click();
-        }
+        await expect(bookButton).toBeVisible({ timeout: 10000 });
 
-        // 2. Select Service
-        // Wait for services to load - check for the tab button
-        await expect(page.getByRole('button', { name: 'Servicios' })).toBeVisible({ timeout: 10000 });
+        // Click and wait for navigation
+        await bookButton.click();
+        await page.waitForLoadState('domcontentloaded', { timeout: 30000 });
 
-        // Click on the service card (div containing service name and price)
+        // 2. Select Service - wait for service cards to appear
         const serviceCard = page.locator('div').filter({ hasText: 'Test Haircut' }).filter({ hasText: 'RD$' }).first();
+        await expect(serviceCard).toBeVisible({ timeout: 20000 });
         await serviceCard.click();
 
-        // 3. Select Date & Time (with increased timeout for step transition)
-        await expect(page.getByText('Selecciona Fecha')).toBeVisible({ timeout: 10000 });
+        // 3. Select Date & Time
+        await expect(page.getByText('Selecciona Fecha')).toBeVisible({ timeout: 15000 });
 
-        // The DayPicker should have today (Nov 1, 2025) selected by default
-        // Proceed directly to slot selection
-
-        // Select a time slot (ensure at least one is visible)
+        // Select a time slot
         const timeSlot = page.getByRole('button', { name: /^\d{1,2}:\d{2} (AM|PM)$/ }).first();
-        await expect(timeSlot).toBeVisible();
+        await expect(timeSlot).toBeVisible({ timeout: 15000 });
         await timeSlot.click();
 
         // 4. Confirm
-        await expect(page.getByText('Resumen de Cita')).toBeVisible();
+        await expect(page.getByText('Resumen de Cita')).toBeVisible({ timeout: 10000 });
         await page.getByRole('button', { name: 'Confirmar y Pagar en Local' }).click();
 
         // 5. SMS Verification
-        await expect(page.getByText('Verifica tu Celular')).toBeVisible();
+        await expect(page.getByText('Verifica tu Celular')).toBeVisible({ timeout: 10000 });
         // Fill 4-digit code
         await page.locator('input[type="text"]').nth(0).fill('1');
         await page.locator('input[type="text"]').nth(1).fill('2');

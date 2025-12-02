@@ -68,6 +68,36 @@ export interface VideoPost {
     tags: string[]
 }
 
+export type AudienceType = 'universal' | 'influencer_only';
+
+export interface InfluencerProfile {
+    id: string;
+    instagramHandle?: string;
+    tiktokHandle?: string;
+    instagramFollowers: number;
+    tiktokFollowers: number;
+    isVerified: boolean;
+    reputationScore: number;
+    badges: string[];
+    nicheTags: string[];
+}
+
+export type ContentStatus = 'draft' | 'submitted' | 'approved' | 'rejected' | 'posted';
+
+export interface ContentSubmission {
+    id: string;
+    applicationId: string;
+    influencerId: string;
+    businessId: string;
+    contentUrl?: string;
+    platform: string;
+    status: ContentStatus;
+    feedback?: string;
+    submittedAt?: string;
+    approvedAt?: string;
+    createdAt: string;
+}
+
 export interface BarterOffer {
     id: string
     businessName: string
@@ -79,6 +109,10 @@ export interface BarterOffer {
     minFollowers: number
     platform: 'Instagram' | 'TikTok' | 'YouTube'
     tags: string[]
+    audienceType: AudienceType
+    categoryTags: string[]
+    maxApplications: number
+    expiresAt?: string
 }
 
 export interface Appointment {

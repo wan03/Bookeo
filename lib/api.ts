@@ -125,7 +125,11 @@ export async function getBarterOffers(): Promise<BarterOffer[]> {
         value: o.value,
         minFollowers: o.min_followers,
         platform: o.platform as any,
-        tags: o.tags || []
+        tags: o.tags || [],
+        audienceType: o.audience_type,
+        categoryTags: o.category_tags || [],
+        maxApplications: o.max_applications,
+        expiresAt: o.expires_at
     }))
 }
 

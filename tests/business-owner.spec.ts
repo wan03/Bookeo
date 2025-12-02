@@ -7,7 +7,6 @@ test.describe('Business Owner Flows', () => {
     test.setTimeout(60000); // Increase timeout for all tests in this group
 
     test.beforeEach(async ({ page }) => {
-        page.on('console', msg => console.log('PAGE LOG:', msg.text()));
         // Login as Owner
         await page.goto('/auth');
         await page.getByPlaceholder('809-555-5555').fill(OWNER_PHONE);
@@ -24,25 +23,37 @@ test.describe('Business Owner Flows', () => {
         // Update Revenue Goal
         const goalInput = page.getByLabel('Meta (RD$)');
         await goalInput.fill('150000');
-        await page.getByRole('button', { name: 'Guardar' }).click();
 
-        // Verify alert/toast (mocked as window.alert, so we might need to handle dialog)
+        // Handle dialog before clicking save
         page.on('dialog', dialog => dialog.accept());
 
-        // Add Staff
-        await page.getByPlaceholder('Nombre del nuevo miembro').fill('New Staff Member');
-        await page.getByRole('button', { name: 'Agregar Personal' }).click();
+        await page.getByRole('button', { name: 'Guardar' }).click();
 
-        // Verify staff added (reload happens in code)
-        await expect(page.getByText('New Staff Member')).toBeVisible();
+        // Wait for the save operation to complete
+        await expect(page.getByRole('button', { name: 'Guardando...' })).toBeVisible({ timeout: 5000 });
+        await expect(page.getByRole('button', { name: 'Guardando...' })).not.toBeVisible({ timeout: 10000 });
+
+        // Add Staff with unique name
+        const uniqueStaffName = `Staff ${Date.now()}`;
+        await page.getByPlaceholder('Nombre del nuevo miembro').fill(uniqueStaffName);
+
+        // Wait for navigation after clicking add staff (component does window.location.reload())
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
+            page.getByLabel('Agregar Personal').click()
+        ]);
+
+        // Verify staff added with unique name
+        await expect(page.getByText(uniqueStaffName)).toBeVisible({ timeout: 10000 });
     });
 
     test('Manage Services with Resource Linking', async ({ page }) => {
         await page.goto('/negocio/servicios');
 
-        // Add Service
+        // Add Service with unique name
+        const uniqueServiceName = `Test Service ${Date.now()}`;
         await page.getByRole('button', { name: 'Agregar Servicio' }).click();
-        await page.getByLabel('Nombre').fill('Test Service with Resource');
+        await page.getByLabel('Nombre').fill(uniqueServiceName);
         await page.getByLabel('Precio (RD$)').fill('1500');
         await page.getByLabel('Duración (min)').selectOption('60');
         await page.getByLabel('Descripción').fill('A test service');
@@ -55,18 +66,16 @@ test.describe('Business Owner Flows', () => {
         // We should ensure a resource exists. The seed creates one.
         // Or we can create one in the test if needed.
 
+        // Wait for the modal to be visible and click Save
+        await expect(page.getByRole('button', { name: 'Guardar' })).toBeVisible();
         await page.getByRole('button', { name: 'Guardar' }).click();
 
-        // Wait for reload - REMOVED as we do optimistic update
-        // await page.waitForLoadState('networkidle');
+        // Wait for the save operation to complete (button will show "Guardando..." then disappear)
+        await expect(page.getByRole('button', { name: 'Guardando...' })).toBeVisible({ timeout: 5000 });
+        await expect(page.getByRole('button', { name: 'Guardando...' })).not.toBeVisible({ timeout: 10000 });
 
-        // Verify service added
-        try {
-            await expect(page.getByText('Test Service with Resource')).toBeVisible({ timeout: 10000 });
-        } catch (e) {
-            console.log('Service not found. Page content:', await page.content());
-            throw e;
-        }
+        // Verify service added with unique name
+        await expect(page.getByText(uniqueServiceName)).toBeVisible({ timeout: 5000 });
     });
 
     test('Manage Availability', async ({ page }) => {
@@ -110,7 +119,6 @@ test.describe('Business Owner Flows', () => {
 
     test('Marketing Tools', async ({ page }) => {
         page.on('dialog', async dialog => {
-            console.log('Dialog message:', dialog.message());
             await dialog.accept();
         });
         await page.goto('/negocio/marketing');

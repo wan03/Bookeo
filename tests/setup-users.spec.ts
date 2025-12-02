@@ -38,7 +38,7 @@ test.describe.serial('Setup Test Users', () => {
             // Wait for redirect (should go to appropriate page based on role)
             await page.waitForURL(/\/(negocio|creador)?.*/, { timeout: 10000 });
 
-            console.log(`✅ Created ${user.role}: ${user.phone}`);
+            // console.log(`✅ Created ${user.role}: ${user.phone}`);
         });
     }
 });

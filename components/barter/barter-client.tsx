@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Search, Filter, Star, MapPin, Instagram, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { BarterOffer } from '@/types'
+import { createClient } from '@/lib/supabase/client'
 
 interface BarterClientProps {
     initialOffers: BarterOffer[]
@@ -14,6 +15,26 @@ export default function BarterClient({ initialOffers }: BarterClientProps) {
     const [filter, setFilter] = useState('all')
     const [selectedOffer, setSelectedOffer] = useState<string | null>(null)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [userRole, setUserRole] = useState<'consumer' | 'influencer'>('consumer')
+    const supabase = createClient()
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (user) {
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('role')
+                    .eq('id', user.id)
+                    .single()
+
+                if (profile?.role === 'influencer') {
+                    setUserRole('influencer')
+                }
+            }
+        }
+        fetchUserRole()
+    }, [supabase])
 
     const handleApply = (offerId: string) => {
         setSelectedOffer(offerId)
@@ -26,12 +47,14 @@ export default function BarterClient({ initialOffers }: BarterClientProps) {
     }
 
     const filteredOffers = initialOffers.filter(offer => {
+        // Filter by Audience Type based on User Role
+        if (userRole === 'consumer' && offer.audienceType === 'influencer_only') return false
+
         if (filter === 'all') return true
-        // Simple mock filtering logic
-        if (filter === 'Belleza') return offer.tags.includes('Beauty') || offer.tags.includes('Nails') || offer.tags.includes('Hair')
-        if (filter === 'Comida') return offer.tags.includes('Foodie')
-        if (filter === 'Fitness') return offer.tags.includes('Fitness')
-        if (filter === 'Lifestyle') return offer.tags.includes('Lifestyle')
+        if (filter === 'Belleza') return offer.tags.includes('Beauty') || offer.tags.includes('Nails') || offer.tags.includes('Hair') || offer.categoryTags?.includes('Beauty')
+        if (filter === 'Comida') return offer.tags.includes('Foodie') || offer.categoryTags?.includes('Food')
+        if (filter === 'Fitness') return offer.tags.includes('Fitness') || offer.categoryTags?.includes('Fitness')
+        if (filter === 'Lifestyle') return offer.tags.includes('Lifestyle') || offer.categoryTags?.includes('Lifestyle')
         return true
     })
 
@@ -47,16 +70,53 @@ export default function BarterClient({ initialOffers }: BarterClientProps) {
             {/* Header */}
             <div className="bg-zinc-900 border-b border-zinc-800 p-6">
                 <div className="max-w-4xl mx-auto">
-                    <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-                        Club de Canjes
-                    </h1>
-                    <p className="text-zinc-400">
-                        Conecta con negocios locales, recibe servicios gratis, y crea contenido brutal. 🇩🇴
-                    </p>
-                    <div className="mt-4">
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                                Club de Canjes
+                            </h1>
+                            <p className="text-zinc-400">
+                                Conecta con negocios locales, recibe servicios gratis, y crea contenido brutal. 🇩🇴
+                            </p>
+                        </div>
+                        {userRole === 'consumer' && (
+                            <Link
+                                href="/creador/perfil/verificacion"
+                                className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-xs font-bold hover:opacity-90 transition-opacity animate-pulse"
+                            >
+                                🚀 Verificarme como Influencer
+                            </Link>
+                        )}
+                    </div>
+
+                    <div className="mt-4 flex space-x-4">
                         <Link href="/intercambios/solicitudes" className="text-sm text-blue-500 hover:text-pink-400 font-medium flex items-center">
                             Ver mis solicitudes →
                         </Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* Educational Section (How it works) */}
+            <div className="bg-zinc-950 border-b border-zinc-800 py-8">
+                <div className="max-w-4xl mx-auto px-4">
+                    <h2 className="text-center text-zinc-500 text-xs uppercase tracking-widest mb-6">¿Cómo funciona?</h2>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                        <div className="p-4">
+                            <div className="bg-zinc-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">🎯</div>
+                            <h3 className="font-bold text-sm mb-1">Aplica</h3>
+                            <p className="text-xs text-zinc-500">Elige una oferta que encaje con tu estilo.</p>
+                        </div>
+                        <div className="p-4">
+                            <div className="bg-zinc-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">💅</div>
+                            <h3 className="font-bold text-sm mb-1">Disfruta</h3>
+                            <p className="text-xs text-zinc-500">Recibe el servicio VIP totalmente gratis.</p>
+                        </div>
+                        <div className="p-4">
+                            <div className="bg-zinc-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">📸</div>
+                            <h3 className="font-bold text-sm mb-1">Publica</h3>
+                            <p className="text-xs text-zinc-500">Sube contenido increíble y etiquétanos.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,7 +158,14 @@ export default function BarterClient({ initialOffers }: BarterClientProps) {
             {/* Offers Grid */}
             <div className="max-w-4xl mx-auto p-4 grid gap-6 md:grid-cols-2">
                 {filteredOffers.map((offer) => (
-                    <div key={offer.id} className="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden hover:border-blue-500/50 transition-all group">
+                    <div key={offer.id} className="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden hover:border-blue-500/50 transition-all group relative">
+                        {/* Exclusive Badge */}
+                        {offer.audienceType === 'influencer_only' && (
+                            <div className="absolute top-4 left-4 z-10 bg-purple-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center">
+                                <Star size={10} className="mr-1 fill-white" /> EXCLUSIVO
+                            </div>
+                        )}
+
                         <div className="relative h-48">
                             <img src={offer.imageUrl} alt={offer.serviceName} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-white flex items-center border border-white/10">

@@ -248,8 +248,35 @@ export async function getBusinessBarterOffers(businessId: string) {
         minFollowers: o.min_followers,
         platform: o.platform,
         applicants: o.barter_applications?.[0]?.count || 0,
-        status: o.status
+        status: o.status,
+        audienceType: o.audience_type,
+        categoryTags: o.category_tags || [],
+        maxApplications: o.max_applications,
+        expiresAt: o.expires_at
     }))
+}
+
+export async function createBarterOffer(businessId: string, offer: any) {
+    const supabase = await createClient()
+    const { error } = await supabase
+        .from('barter_offers')
+        .insert({
+            business_id: businessId,
+            service_name: offer.serviceName,
+            description: offer.description,
+            value: offer.value,
+            min_followers: offer.minFollowers,
+            platform: offer.platform,
+            audience_type: offer.audienceType,
+            category_tags: offer.categoryTags,
+            max_applications: offer.maxApplications,
+            expires_at: offer.expiresAt
+        })
+
+    if (error) {
+        console.error('Error creating barter offer:', error)
+        throw error
+    }
 }
 
 export async function getInfluencerApplications() {
@@ -280,6 +307,40 @@ export async function getInfluencerApplications() {
         submittedAt: new Date(app.created_at).toLocaleDateString(),
         videoUrl: app.review_video_url
     }))
+}
+
+export async function submitContent(applicationId: string, contentUrl: string, platform: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) throw new Error('Unauthorized')
+
+    // 1. Get application details
+    const { data: application } = await supabase
+        .from('barter_applications')
+        .select('*, barter_offers(business_id)')
+        .eq('id', applicationId)
+        .single()
+
+    if (!application) throw new Error('Application not found')
+
+    // 2. Create content submission
+    const { error } = await supabase
+        .from('content_submissions')
+        .insert({
+            application_id: applicationId,
+            influencer_id: user.id,
+            business_id: application.barter_offers.business_id,
+            content_url: contentUrl,
+            platform: platform,
+            status: 'submitted',
+            submitted_at: new Date().toISOString()
+        })
+
+    if (error) {
+        console.error('Error submitting content:', error)
+        throw error
+    }
 }
 
 export async function getOperatingHours(businessId: string) {

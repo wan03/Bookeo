@@ -111,54 +111,120 @@ export default function BarterManagementPage() {
                 )}
             </div>
 
-            {/* Create Modal (Mock) */}
+            {/* Create Modal */}
             {showCreateModal && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-zinc-900 w-full max-w-md rounded-2xl border border-zinc-800 p-6">
+                    <div className="bg-zinc-900 w-full max-w-md rounded-2xl border border-zinc-800 p-6 max-h-[90vh] overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4">Nueva Oferta de Intercambio</h2>
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-xs text-zinc-400 mb-1">Servicio a Ofrecer</label>
-                                <select className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white">
-                                    <option>Corte VIP + Barba</option>
-                                    <option>Limpieza Facial</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-xs text-zinc-400 mb-1">Descripción de la Campaña</label>
-                                <textarea
-                                    className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white h-24"
-                                    placeholder="¿Qué tipo de contenido buscas?"
-                                ></textarea>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
+                        <form onSubmit={async (e) => {
+                            e.preventDefault()
+                            const formData = new FormData(e.currentTarget)
+                            const { createBarterOffer } = await import('@/app/actions')
+
+                            // Get business ID (in a real app, this would be cleaner)
+                            const { data: { user } } = await supabase.auth.getUser()
+                            const { data: business } = await supabase.from('businesses').select('id').eq('owner_id', user?.id).single()
+
+                            if (business) {
+                                await createBarterOffer(business.id, {
+                                    serviceName: formData.get('serviceName'),
+                                    description: formData.get('description'),
+                                    value: Number(formData.get('value')),
+                                    minFollowers: Number(formData.get('minFollowers')),
+                                    platform: formData.get('platform'),
+                                    audienceType: formData.get('audienceType'),
+                                    categoryTags: [formData.get('category')], // Simple single select for now
+                                    maxApplications: Number(formData.get('maxApplications')),
+                                    expiresAt: null // Optional
+                                })
+                                setShowCreateModal(false)
+                                // Refresh list
+                                const { getBusinessBarterOffers } = await import('@/app/actions')
+                                const data = await getBusinessBarterOffers(business.id)
+                                setOffers(data)
+                            }
+                        }}>
+                            <div className="space-y-4">
                                 <div>
-                                    <label className="block text-xs text-zinc-400 mb-1">Min. Seguidores</label>
-                                    <input type="number" className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white" placeholder="5000" />
+                                    <label className="block text-xs text-zinc-400 mb-1">Servicio a Ofrecer</label>
+                                    <input name="serviceName" className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white" placeholder="Ej. Corte VIP" required />
                                 </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-xs text-zinc-400 mb-1">Valor (RD$)</label>
+                                        <input name="value" type="number" className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white" placeholder="1500" required />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs text-zinc-400 mb-1">Categoría</label>
+                                        <select name="category" className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white">
+                                            <option value="Beauty">Belleza</option>
+                                            <option value="Food">Comida</option>
+                                            <option value="Fitness">Fitness</option>
+                                            <option value="Lifestyle">Lifestyle</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div>
-                                    <label className="block text-xs text-zinc-400 mb-1">Plataforma</label>
-                                    <select className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white">
-                                        <option>Instagram</option>
-                                        <option>TikTok</option>
-                                    </select>
+                                    <label className="block text-xs text-zinc-400 mb-1">Descripción de la Campaña</label>
+                                    <textarea
+                                        name="description"
+                                        className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white h-24"
+                                        placeholder="¿Qué tipo de contenido buscas?"
+                                        required
+                                    ></textarea>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs text-zinc-400 mb-1">Tipo de Audiencia</label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <label className="border border-zinc-800 rounded-lg p-3 flex items-center space-x-2 cursor-pointer hover:bg-zinc-800">
+                                            <input type="radio" name="audienceType" value="influencer_only" defaultChecked />
+                                            <span className="text-sm">Solo Influencers</span>
+                                        </label>
+                                        <label className="border border-zinc-800 rounded-lg p-3 flex items-center space-x-2 cursor-pointer hover:bg-zinc-800">
+                                            <input type="radio" name="audienceType" value="universal" />
+                                            <span className="text-sm">Universal (Todos)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-xs text-zinc-400 mb-1">Min. Seguidores</label>
+                                        <input name="minFollowers" type="number" className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white" placeholder="5000" defaultValue={1000} />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs text-zinc-400 mb-1">Plataforma</label>
+                                        <select name="platform" className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white">
+                                            <option value="Instagram">Instagram</option>
+                                            <option value="TikTok">TikTok</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs text-zinc-400 mb-1">Cupo Máximo</label>
+                                    <input name="maxApplications" type="number" className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white" placeholder="50" defaultValue={10} />
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex space-x-3 mt-6">
-                            <button
-                                onClick={() => setShowCreateModal(false)}
-                                className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-xl font-medium"
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={() => setShowCreateModal(false)}
-                                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold"
-                            >
-                                Publicar Oferta
-                            </button>
-                        </div>
+                            <div className="flex space-x-3 mt-6">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCreateModal(false)}
+                                    className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-xl font-medium"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold"
+                                >
+                                    Publicar Oferta
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

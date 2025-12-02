@@ -12,8 +12,9 @@ import { useRouter } from 'next/navigation'
 
 export default function MyApplicationsPage() {
     const [applications, setApplications] = useState<any[]>([])
-    const [uploadingId, setUploadingId] = useState<string | null>(null)
+    const [selectedAppId, setSelectedAppId] = useState<string | null>(null)
     const [loading, setLoading] = useState(true)
+    const [submitting, setSubmitting] = useState(false)
     const supabase = createClient()
     const router = useRouter()
 
@@ -33,15 +34,30 @@ export default function MyApplicationsPage() {
         fetchData()
     }, [router, supabase])
 
-    const handleUpload = (id: string) => {
-        setUploadingId(id)
-        // Mock upload simulation
-        setTimeout(() => {
-            setApplications(apps => apps.map(app =>
-                app.id === id ? { ...app, status: 'completed', videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4' } : app
-            ))
-            setUploadingId(null)
-        }, 2000)
+    const handleSubmitContent = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!selectedAppId) return
+        setSubmitting(true)
+
+        try {
+            const formData = new FormData(e.target as HTMLFormElement)
+            const contentUrl = formData.get('contentUrl') as string
+            const platform = formData.get('platform') as string
+
+            const { submitContent } = await import('@/app/actions')
+            await submitContent(selectedAppId, contentUrl, platform)
+
+            // Refresh list
+            const { getInfluencerApplications } = await import('@/app/actions')
+            const data = await getInfluencerApplications()
+            setApplications(data)
+            setSelectedAppId(null)
+        } catch (error) {
+            console.error('Error submitting content:', error)
+            alert('Error al enviar contenido. Intenta de nuevo.')
+        } finally {
+            setSubmitting(false)
+        }
     }
 
     return (
@@ -72,25 +88,18 @@ export default function MyApplicationsPage() {
 
                             {app.status === 'approved' && (
                                 <button
-                                    onClick={() => handleUpload(app.id)}
-                                    disabled={uploadingId === app.id}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center justify-center transition-colors disabled:opacity-50"
+                                    onClick={() => setSelectedAppId(app.id)}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center justify-center transition-colors"
                                 >
-                                    {uploadingId === app.id ? (
-                                        "Subiendo..."
-                                    ) : (
-                                        <>
-                                            <Upload size={16} className="mr-2" />
-                                            Subir Video Review
-                                        </>
-                                    )}
+                                    <Upload size={16} className="mr-2" />
+                                    Subir Contenido
                                 </button>
                             )}
 
                             {app.status === 'completed' && (
                                 <div className="text-zinc-500 text-xs flex items-center">
                                     <CheckCircle size={14} className="mr-1 text-green-500" />
-                                    Video Enviado
+                                    Contenido Enviado
                                 </div>
                             )}
                         </div>
@@ -99,6 +108,53 @@ export default function MyApplicationsPage() {
                     <div className="text-center py-12 text-zinc-500">No tienes solicitudes activas.</div>
                 )}
             </div>
+
+            {/* Content Submission Modal */}
+            {selectedAppId && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-zinc-900 w-full max-w-md rounded-2xl border border-zinc-800 p-6">
+                        <h2 className="text-xl font-bold mb-4">Subir Contenido</h2>
+                        <form onSubmit={handleSubmitContent}>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-xs text-zinc-400 mb-1">Link del Post/Video</label>
+                                    <input
+                                        name="contentUrl"
+                                        type="url"
+                                        className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white"
+                                        placeholder="https://instagram.com/p/..."
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-zinc-400 mb-1">Plataforma</label>
+                                    <select name="platform" className="w-full bg-black border border-zinc-800 rounded-lg p-3 text-white">
+                                        <option value="Instagram">Instagram</option>
+                                        <option value="TikTok">TikTok</option>
+                                        <option value="YouTube">YouTube</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="flex space-x-3 mt-6">
+                                <button
+                                    type="button"
+                                    onClick={() => setSelectedAppId(null)}
+                                    className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-xl font-medium"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={submitting}
+                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold disabled:opacity-50"
+                                >
+                                    {submitting ? 'Enviando...' : 'Enviar'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

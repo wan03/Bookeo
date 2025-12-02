@@ -1,7 +1,8 @@
 import AuthClient from './AuthClient'
 
-export default function Page({ searchParams }: { searchParams?: Record<string, string | string[] | undefined> }) {
-    const rawRedirect = searchParams?.redirect
+export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+    const params = await searchParams
+    const rawRedirect = params?.redirect
     const redirectTo = typeof rawRedirect === 'string'
         ? rawRedirect
         : Array.isArray(rawRedirect)

@@ -37,24 +37,26 @@ export async function updateSession(request: NextRequest) {
 
     // Protected Routes Logic
     if (request.nextUrl.pathname.startsWith('/negocio') || request.nextUrl.pathname.startsWith('/creador') || request.nextUrl.pathname.startsWith('/citas')) {
-        console.log(`[Middleware] Checking access for: ${request.nextUrl.pathname}`)
         if (!user) {
-            console.log('[Middleware] No user, redirecting to /auth')
             return NextResponse.redirect(new URL('/auth', request.url))
         }
 
         // Fetch user role from metadata (faster, no RLS issues)
         const role = user.user_metadata?.role
-        console.log(`[Middleware] User: ${user.id}, Role: ${role}`)
 
         if (request.nextUrl.pathname.startsWith('/negocio') && role !== 'business_owner' && role !== 'admin' && role !== 'staff') {
-            console.log('[Middleware] Unauthorized for business, redirecting to /')
             return NextResponse.redirect(new URL('/', request.url)) // Or unauthorized page
         }
 
-        if (request.nextUrl.pathname.startsWith('/creador') && role !== 'influencer' && role !== 'admin') {
-            console.log('[Middleware] Unauthorized for creator, redirecting to /')
-            return NextResponse.redirect(new URL('/', request.url))
+        // Allow all authenticated users to view barter offers, but restrict other creator routes
+        if (request.nextUrl.pathname.startsWith('/creador')) {
+            // Public creator routes accessible to all authenticated users
+            const publicCreatorRoutes = ['/creador/intercambios', '/creador/perfil/verificacion']
+            const isPublicRoute = publicCreatorRoutes.some(route => request.nextUrl.pathname.startsWith(route))
+
+            if (!isPublicRoute && role !== 'influencer' && role !== 'admin') {
+                return NextResponse.redirect(new URL('/', request.url))
+            }
         }
 
         // /citas is accessible to any authenticated user (or we could restrict to 'consumer' if needed)
