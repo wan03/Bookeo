@@ -311,7 +311,10 @@ export const MOCK_OFFERS: BarterOffer[] = [
         value: 1500,
         minFollowers: 5000,
         platform: "Instagram",
-        tags: ["Lifestyle", "Men's Grooming"]
+        tags: ["Lifestyle", "Men's Grooming"],
+        audienceType: 'universal',
+        categoryTags: [],
+        maxApplications: 10
     },
     {
         id: '2',
@@ -323,7 +326,10 @@ export const MOCK_OFFERS: BarterOffer[] = [
         value: 2500,
         minFollowers: 10000,
         platform: "TikTok",
-        tags: ["Beauty", "Nails", "Fashion"]
+        tags: ["Beauty", "Nails", "Fashion"],
+        audienceType: 'universal',
+        categoryTags: [],
+        maxApplications: 10
     },
     {
         id: '3',
@@ -335,7 +341,10 @@ export const MOCK_OFFERS: BarterOffer[] = [
         value: 3000,
         minFollowers: 15000,
         platform: "Instagram",
-        tags: ["Wellness", "Travel"]
+        tags: ["Wellness", "Travel"],
+        audienceType: 'universal',
+        categoryTags: [],
+        maxApplications: 10
     },
     {
         id: '4',
@@ -347,7 +356,10 @@ export const MOCK_OFFERS: BarterOffer[] = [
         value: 4000,
         minFollowers: 20000,
         platform: "Instagram",
-        tags: ["Art", "Tattoo", "Alternative"]
+        tags: ["Art", "Tattoo", "Alternative"],
+        audienceType: 'universal',
+        categoryTags: [],
+        maxApplications: 10
     },
     {
         id: '5',
@@ -359,7 +371,10 @@ export const MOCK_OFFERS: BarterOffer[] = [
         value: 6000,
         minFollowers: 50000,
         platform: "Instagram",
-        tags: ["Foodie", "Luxury", "Lifestyle"]
+        tags: ["Foodie", "Luxury", "Lifestyle"],
+        audienceType: 'universal',
+        categoryTags: [],
+        maxApplications: 10
     },
     {
         id: '6',
@@ -371,7 +386,10 @@ export const MOCK_OFFERS: BarterOffer[] = [
         value: 4500,
         minFollowers: 8000,
         platform: "TikTok",
-        tags: ["Fitness", "Health", "Sports"]
+        tags: ["Fitness", "Health", "Sports"],
+        audienceType: 'universal',
+        categoryTags: [],
+        maxApplications: 10
     },
     {
         id: '7',
@@ -383,7 +401,10 @@ export const MOCK_OFFERS: BarterOffer[] = [
         value: 2000,
         minFollowers: 5000,
         platform: "Instagram",
-        tags: ["Beauty", "Hair"]
+        tags: ["Beauty", "Hair"],
+        audienceType: 'universal',
+        categoryTags: [],
+        maxApplications: 10
     },
     {
         id: '8',
@@ -395,7 +416,10 @@ export const MOCK_OFFERS: BarterOffer[] = [
         value: 1800,
         minFollowers: 10000,
         platform: "TikTok",
-        tags: ["Cars", "Detailing"]
+        tags: ["Cars", "Detailing"],
+        audienceType: 'universal',
+        categoryTags: [],
+        maxApplications: 10
     }
 ]
 
