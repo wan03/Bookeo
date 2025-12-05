@@ -1,0 +1,216 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic:
+      - link "Bookeo Logo" [ref=e3] [cursor=pointer]:
+        - /url: /
+        - img "Bookeo Logo" [ref=e5]
+      - link "Iniciar Sesión" [ref=e7] [cursor=pointer]:
+        - /url: /auth
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - img [ref=e13]
+          - generic [ref=e15]:
+            - heading "Admin Dashboard" [level=1] [ref=e16]
+            - paragraph [ref=e17]: Bookeo Platform Control
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - paragraph [ref=e20]: Test Admin
+            - paragraph [ref=e21]: 8095550005@phone.bookeo.com
+          - generic [ref=e22]: T
+      - generic [ref=e23]:
+        - complementary [ref=e24]:
+          - navigation [ref=e25]:
+            - link "Dashboard" [ref=e26] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e27]
+              - generic [ref=e32]: Dashboard
+            - link "Users" [ref=e34] [cursor=pointer]:
+              - /url: /admin/users
+              - img [ref=e35]
+              - generic [ref=e40]: Users
+            - link "Businesses" [ref=e41] [cursor=pointer]:
+              - /url: /admin/businesses
+              - img [ref=e42]
+              - generic [ref=e48]: Businesses
+            - link "Bookings" [ref=e49] [cursor=pointer]:
+              - /url: /admin/bookings
+              - img [ref=e50]
+              - generic [ref=e55]: Bookings
+            - link "Influencers" [ref=e56] [cursor=pointer]:
+              - /url: /admin/influencers
+              - img [ref=e57]
+              - generic [ref=e62]: Influencers
+            - link "Settings" [ref=e63] [cursor=pointer]:
+              - /url: /admin/settings
+              - img [ref=e64]
+              - generic [ref=e67]: Settings
+          - generic [ref=e69]:
+            - generic [ref=e70]:
+              - img [ref=e71]
+              - generic [ref=e73]: Admin Access
+            - paragraph [ref=e74]: You have full platform control. All actions are logged and audited.
+        - main [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - heading "Dashboard Overview" [level=2] [ref=e78]
+              - paragraph [ref=e79]: Platform metrics and recent activity
+            - generic [ref=e80]:
+              - generic [ref=e81]:
+                - generic [ref=e82]:
+                  - img [ref=e84]
+                  - generic [ref=e88]: 0%
+                - generic [ref=e89]:
+                  - paragraph [ref=e90]: Total Revenue
+                  - paragraph [ref=e91]: RD$0
+              - generic [ref=e92]:
+                - generic [ref=e93]:
+                  - img [ref=e95]
+                  - generic [ref=e101]: 0%
+                - generic [ref=e102]:
+                  - paragraph [ref=e103]: Total Bookings
+                  - paragraph [ref=e104]: "0"
+              - generic [ref=e105]:
+                - generic [ref=e106]:
+                  - img [ref=e108]
+                  - generic [ref=e113]:
+                    - img [ref=e114]
+                    - generic [ref=e116]: +100.0%
+                - generic [ref=e117]:
+                  - paragraph [ref=e118]: Active Users
+                  - paragraph [ref=e119]: "6"
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - img [ref=e123]
+                  - generic [ref=e128]: Needs attention
+                - generic [ref=e129]:
+                  - paragraph [ref=e130]: Pending Verifications
+                  - paragraph [ref=e131]: "1"
+            - generic [ref=e132]:
+              - generic [ref=e133]:
+                - img [ref=e136]
+                - generic [ref=e142]:
+                  - paragraph [ref=e143]: Total Businesses
+                  - paragraph [ref=e144]: "9"
+                  - paragraph [ref=e145]: 8 verified
+              - generic [ref=e146]:
+                - img [ref=e149]
+                - generic [ref=e152]:
+                  - paragraph [ref=e153]: Completed Bookings
+                  - paragraph [ref=e154]: "0"
+                  - paragraph [ref=e155]: NaN% completion rate
+              - generic [ref=e156]:
+                - img [ref=e159]
+                - generic [ref=e164]:
+                  - paragraph [ref=e165]: Barter Offers
+                  - paragraph [ref=e166]: "29"
+                  - paragraph [ref=e167]: 0 pending applications
+              - generic [ref=e168]:
+                - img [ref=e171]
+                - generic [ref=e174]:
+                  - paragraph [ref=e175]: Average Rating
+                  - paragraph [ref=e176]: "5.00"
+                  - paragraph [ref=e177]: 7 total reviews
+            - generic [ref=e178]:
+              - generic [ref=e179]:
+                - generic [ref=e180]:
+                  - heading "Recent Activity" [level=3] [ref=e181]
+                  - paragraph [ref=e182]: Last 7 days of platform events
+                - button "View All" [ref=e183]
+              - generic [ref=e184]:
+                - generic [ref=e185]:
+                  - img [ref=e187]
+                  - generic [ref=e192]:
+                    - paragraph [ref=e193]: "Booking #ee3f5905"
+                    - paragraph [ref=e194]: Booking Created
+                    - generic [ref=e195]:
+                      - generic [ref=e196]: "price: 500"
+                      - generic [ref=e197]: "status: cancelled"
+                  - generic [ref=e198]: 12h ago
+                - generic [ref=e199]:
+                  - img [ref=e201]
+                  - generic [ref=e206]:
+                    - paragraph [ref=e207]: "Booking #5cc2c804"
+                    - paragraph [ref=e208]: Booking Created
+                    - generic [ref=e209]:
+                      - generic [ref=e210]: "price: 500"
+                      - generic [ref=e211]: "status: confirmed"
+                  - generic [ref=e212]: 12h ago
+                - generic [ref=e213]:
+                  - img [ref=e215]
+                  - generic [ref=e220]:
+                    - paragraph [ref=e221]: "Booking #1077c905"
+                    - paragraph [ref=e222]: Booking Created
+                    - generic [ref=e223]:
+                      - generic [ref=e224]: "price: 500"
+                      - generic [ref=e225]: "status: cancelled"
+                  - generic [ref=e226]: 12h ago
+                - generic [ref=e227]:
+                  - img [ref=e229]
+                  - generic [ref=e234]:
+                    - paragraph [ref=e235]: "Booking #0b23db33"
+                    - paragraph [ref=e236]: Booking Created
+                    - generic [ref=e237]:
+                      - generic [ref=e238]: "price: 500"
+                      - generic [ref=e239]: "status: cancelled"
+                  - generic [ref=e240]: 2d ago
+                - generic [ref=e241]:
+                  - img [ref=e243]
+                  - generic [ref=e248]:
+                    - paragraph [ref=e249]: "Booking #8013255a"
+                    - paragraph [ref=e250]: Booking Created
+                    - generic [ref=e251]:
+                      - generic [ref=e252]: "price: 500"
+                      - generic [ref=e253]: "status: confirmed"
+                  - generic [ref=e254]: 2d ago
+                - generic [ref=e255]:
+                  - img [ref=e257]
+                  - generic [ref=e262]:
+                    - paragraph [ref=e263]: "Booking #c8194652"
+                    - paragraph [ref=e264]: Booking Created
+                    - generic [ref=e265]:
+                      - generic [ref=e266]: "price: 500"
+                      - generic [ref=e267]: "status: pending"
+                  - generic [ref=e268]: 2d ago
+                - generic [ref=e269]:
+                  - img [ref=e271]
+                  - generic [ref=e273]:
+                    - paragraph [ref=e274]: Review by Test Consumer
+                    - paragraph [ref=e275]: Review Posted
+                    - generic [ref=e276]:
+                      - generic [ref=e277]: "rating: 5"
+                      - generic [ref=e278]: "business_id: 705db1d4-f18f-44ae-ad5b-a0561936858a"
+                  - generic [ref=e279]: 6d ago
+            - generic [ref=e280]: "Last updated: 12/2/2025, 4:43:30 PM"
+    - navigation [ref=e281]:
+      - generic [ref=e282]:
+        - link "Inicio" [ref=e283] [cursor=pointer]:
+          - /url: /
+          - img [ref=e284]
+          - generic [ref=e287]: Inicio
+        - link "Explorar" [ref=e288] [cursor=pointer]:
+          - /url: /explorar
+          - img [ref=e289]
+          - generic [ref=e292]: Explorar
+        - link "Canjes" [ref=e293] [cursor=pointer]:
+          - /url: /creador/intercambios
+          - img [ref=e295]
+          - generic [ref=e298]: Canjes
+        - link "Citas" [ref=e299] [cursor=pointer]:
+          - /url: /citas
+          - img [ref=e300]
+          - generic [ref=e305]: Citas
+        - link "Negocio" [ref=e306] [cursor=pointer]:
+          - /url: /negocio/panel
+          - img [ref=e307]
+          - generic [ref=e310]: Negocio
+        - link "Perfil" [ref=e311] [cursor=pointer]:
+          - /url: /perfil
+          - img [ref=e312]
+          - generic [ref=e315]: Perfil
+  - button "Open Next.js Dev Tools" [ref=e321] [cursor=pointer]:
+    - img [ref=e322]
+```
