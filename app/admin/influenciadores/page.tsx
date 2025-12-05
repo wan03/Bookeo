@@ -17,13 +17,13 @@ export default async function AdminInfluencersPage({
             {/* Page Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-3xl font-bold text-white mb-2">Influencer Hub</h2>
-                    <p className="text-slate-400">Manage collaborations and content</p>
+                    <h2 className="text-3xl font-bold text-white mb-2">Centro de Influenciadores</h2>
+                    <p className="text-slate-400">Gestionar colaboraciones y contenido</p>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700/50">
                     <Crown className="w-5 h-5 text-yellow-400" />
                     <span className="text-white font-semibold">{leaderboard.length}</span>
-                    <span className="text-slate-400 text-sm">Active Influencers</span>
+                    <span className="text-slate-400 text-sm">Influenciadores Activos</span>
                 </div>
             </div>
 

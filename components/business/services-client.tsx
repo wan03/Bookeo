@@ -39,13 +39,13 @@ export default function ServicesClient({ business, initialResources }: ServicesC
     }
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure?')) return
+        if (!confirm('¿Estás seguro?')) return
         try {
             await deleteService(id)
             setServices(prev => prev.filter(s => s.id !== id))
         } catch (error) {
             console.error(error)
-            alert('Error deleting service')
+            alert('Error al eliminar el servicio')
         }
     }
 

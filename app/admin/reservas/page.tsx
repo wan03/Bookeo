@@ -18,13 +18,13 @@ export default async function AdminBookingsPage({
             {/* Page Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-3xl font-bold text-white mb-2">Booking Management</h2>
-                    <p className="text-slate-400">Monitor and manage platform appointments</p>
+                    <h2 className="text-3xl font-bold text-white mb-2">Gestión de Reservas</h2>
+                    <p className="text-slate-400">Monitorear y gestionar citas de la plataforma</p>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700/50">
                     <Calendar className="w-5 h-5 text-blue-400" />
                     <span className="text-white font-semibold">{total}</span>
-                    <span className="text-slate-400 text-sm">Total Bookings</span>
+                    <span className="text-slate-400 text-sm">Reservas Totales</span>
                 </div>
             </div>
 

@@ -33,14 +33,14 @@ export default async function AdminDashboard() {
         <div className="space-y-8">
             {/* Page Header */}
             <div>
-                <h2 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h2>
-                <p className="text-slate-400">Platform metrics and recent activity</p>
+                <h2 className="text-3xl font-bold text-white mb-2">Resumen del Panel</h2>
+                <p className="text-slate-400">Métricas de la plataforma y actividad reciente</p>
             </div>
 
             {/* Top Row - Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatCard
-                    title="Total Revenue"
+                    title="Ingresos Totales"
                     value={`RD$${stats.totalRevenue.toLocaleString()}`}
                     trend={revenueGrowth}
                     trendUp={stats.revenue30d > 0}
@@ -49,7 +49,7 @@ export default async function AdminDashboard() {
                     iconBg="bg-green-500/10"
                 />
                 <StatCard
-                    title="Total Bookings"
+                    title="Reservas Totales"
                     value={stats.totalBookings.toLocaleString()}
                     trend={bookingGrowth}
                     trendUp={stats.bookings30d > 0}
@@ -58,7 +58,7 @@ export default async function AdminDashboard() {
                     iconBg="bg-blue-500/10"
                 />
                 <StatCard
-                    title="Active Users"
+                    title="Usuarios Activos"
                     value={stats.totalUsers.toLocaleString()}
                     trend={userGrowth}
                     trendUp={stats.newUsers30d > 0}
@@ -67,9 +67,9 @@ export default async function AdminDashboard() {
                     iconBg="bg-purple-500/10"
                 />
                 <StatCard
-                    title="Pending Verifications"
+                    title="Verificaciones Pendientes"
                     value={stats.pendingVerifications.toLocaleString()}
-                    trend={stats.pendingVerifications > 0 ? 'Needs attention' : 'All clear'}
+                    trend={stats.pendingVerifications > 0 ? 'Requiere atención' : 'Todo en orden'}
                     trendUp={false}
                     icon={AlertCircle}
                     iconColor="text-yellow-400"
@@ -80,33 +80,33 @@ export default async function AdminDashboard() {
             {/* Second Row - Platform Health */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatCard
-                    title="Total Businesses"
+                    title="Negocios Totales"
                     value={stats.totalBusinesses.toLocaleString()}
-                    subtitle={`${stats.verifiedBusinesses} verified`}
+                    subtitle={`${stats.verifiedBusinesses} verificados`}
                     icon={Building2}
                     iconColor="text-cyan-400"
                     iconBg="bg-cyan-500/10"
                 />
                 <StatCard
-                    title="Completed Bookings"
+                    title="Reservas Completadas"
                     value={stats.completedBookings.toLocaleString()}
-                    subtitle={`${((stats.completedBookings / stats.totalBookings) * 100).toFixed(1)}% completion rate`}
+                    subtitle={`${((stats.completedBookings / stats.totalBookings) * 100).toFixed(1)}% tasa de finalización`}
                     icon={CheckCircle}
                     iconColor="text-emerald-400"
                     iconBg="bg-emerald-500/10"
                 />
                 <StatCard
-                    title="Barter Offers"
+                    title="Ofertas de Canje"
                     value={stats.activeBarterOffers.toLocaleString()}
-                    subtitle={`${stats.pendingBarterApplications} pending applications`}
+                    subtitle={`${stats.pendingBarterApplications} solicitudes pendientes`}
                     icon={Sparkles}
                     iconColor="text-pink-400"
                     iconBg="bg-pink-500/10"
                 />
                 <StatCard
-                    title="Average Rating"
+                    title="Calificación Promedio"
                     value={stats.averageRating.toFixed(2)}
-                    subtitle={`${stats.totalReviews} total reviews`}
+                    subtitle={`${stats.totalReviews} reseñas totales`}
                     icon={TrendingUp}
                     iconColor="text-orange-400"
                     iconBg="bg-orange-500/10"
@@ -117,11 +117,11 @@ export default async function AdminDashboard() {
             <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-800/50 p-6">
                 <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h3 className="text-xl font-bold text-white">Recent Activity</h3>
-                        <p className="text-sm text-slate-400 mt-1">Last 7 days of platform events</p>
+                        <h3 className="text-xl font-bold text-white">Actividad Reciente</h3>
+                        <p className="text-sm text-slate-400 mt-1">Últimos 7 días de eventos de la plataforma</p>
                     </div>
                     <button className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm transition-colors">
-                        View All
+                        Ver Todo
                     </button>
                 </div>
                 <RecentActivityFeed activities={recentActivity} />
@@ -129,7 +129,7 @@ export default async function AdminDashboard() {
 
             {/* Last Updated */}
             <div className="text-center text-xs text-slate-500">
-                Last updated: {new Date(stats.lastUpdated).toLocaleString()}
+                Última actualización: {new Date(stats.lastUpdated).toLocaleString()}
             </div>
         </div>
     )

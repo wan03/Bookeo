@@ -50,22 +50,38 @@ export default function BookingsTable({
     const [loading, setLoading] = useState<string | null>(null)
 
     const handleCancel = async (bookingId: string) => {
-        const reason = prompt('Enter cancellation reason (required):')
+        const reason = prompt('Introduce la razón de la cancelación (requerido):')
         if (!reason) return
 
         setLoading(bookingId)
         const success = await adminCancelBooking(bookingId, reason)
         if (success) {
-            alert('Booking cancelled successfully!')
+            alert('¡Reserva cancelada con éxito!')
             router.refresh()
         } else {
-            alert('Failed to cancel booking')
+            alert('Error al cancelar la reserva')
         }
         setLoading(null)
     }
 
     const handleFilterChange = (filter: string) => {
-        router.push(`/admin/bookings?filter=${filter}&page=1`)
+        router.push(`/admin/reservas?filter=${filter}&page=1`)
+    }
+
+    const filterLabels: Record<string, string> = {
+        all: 'Todas',
+        pending: 'Pendientes',
+        confirmed: 'Confirmadas',
+        completed: 'Completadas',
+        cancelled: 'Canceladas'
+    }
+
+    const statusLabels: Record<string, string> = {
+        pending: 'Pendiente',
+        confirmed: 'Confirmada',
+        completed: 'Completada',
+        cancelled: 'Cancelada',
+        no_show: 'No Asistió'
     }
 
     return (
@@ -81,7 +97,7 @@ export default function BookingsTable({
                             : 'bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-800'
                             }`}
                     >
-                        {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                        {filterLabels[filter] || filter}
                     </button>
                 ))}
             </div>
@@ -92,22 +108,22 @@ export default function BookingsTable({
                     <thead>
                         <tr className="border-b border-slate-800/50">
                             <th className="px-6 py-4 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                                Booking Details
+                                Detalles de Reserva
                             </th>
                             <th className="px-6 py-4 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                                Customer
+                                Cliente
                             </th>
                             <th className="px-6 py-4 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                                Business
+                                Negocio
                             </th>
                             <th className="px-6 py-4 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                                Status
+                                Estado
                             </th>
                             <th className="px-6 py-4 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                                Amount
+                                Monto
                             </th>
                             <th className="px-6 py-4 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                                Actions
+                                Acciones
                             </th>
                         </tr>
                     </thead>
@@ -126,7 +142,7 @@ export default function BookingsTable({
                                             </div>
                                             <div>
                                                 <p className="font-medium text-white">
-                                                    {booking.services?.name || 'Unknown Service'}
+                                                    {booking.services?.name || 'Servicio Desconocido'}
                                                 </p>
                                                 <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
                                                     <span className="flex items-center gap-1">
@@ -143,10 +159,10 @@ export default function BookingsTable({
                                     </td>
                                     <td className="px-6 py-4">
                                         <div>
-                                            <p className="text-sm text-white">{booking.profiles?.full_name || 'Unknown'}</p>
+                                            <p className="text-sm text-white">{booking.profiles?.full_name || 'Desconocido'}</p>
                                             <div className="flex items-center gap-1 text-xs text-slate-400 mt-1">
                                                 <User className="w-3 h-3" />
-                                                {booking.profiles?.email || 'No email'}
+                                                {booking.profiles?.email || 'Sin email'}
                                             </div>
                                         </div>
                                     </td>
@@ -154,14 +170,14 @@ export default function BookingsTable({
                                         <div className="flex items-center gap-2">
                                             <Building2 className="w-4 h-4 text-slate-500" />
                                             <span className="text-sm text-slate-300">
-                                                {booking.businesses?.name || 'Unknown Business'}
+                                                {booking.businesses?.name || 'Negocio Desconocido'}
                                             </span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${statusColor}`}>
                                             <StatusIcon className="w-3.5 h-3.5" />
-                                            {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                                            {statusLabels[booking.status] || booking.status}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
@@ -176,7 +192,7 @@ export default function BookingsTable({
                                                 disabled={loading === booking.id}
                                                 className="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors disabled:opacity-50"
                                             >
-                                                {loading === booking.id ? 'Cancelling...' : 'Cancel'}
+                                                {loading === booking.id ? 'Cancelando...' : 'Cancelar'}
                                             </button>
                                         )}
                                     </td>
@@ -191,7 +207,7 @@ export default function BookingsTable({
             {bookings.length === 0 && (
                 <div className="text-center py-12 text-slate-500">
                     <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p>No bookings found</p>
+                    <p>No se encontraron reservas</p>
                 </div>
             )}
 
@@ -199,22 +215,22 @@ export default function BookingsTable({
             {total > 50 && (
                 <div className="flex items-center justify-between px-6 py-4 border-t border-slate-800/50">
                     <p className="text-sm text-slate-400">
-                        Showing {(currentPage - 1) * 50 + 1} to {Math.min(currentPage * 50, total)} of {total} bookings
+                        Mostrando {(currentPage - 1) * 50 + 1} a {Math.min(currentPage * 50, total)} de {total} reservas
                     </p>
                     <div className="flex gap-2">
                         <button
-                            onClick={() => router.push(`/admin/bookings?filter=${currentFilter}&page=${currentPage - 1}`)}
+                            onClick={() => router.push(`/admin/reservas?filter=${currentFilter}&page=${currentPage - 1}`)}
                             disabled={currentPage === 1}
                             className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Previous
+                            Anterior
                         </button>
                         <button
-                            onClick={() => router.push(`/admin/bookings?filter=${currentFilter}&page=${currentPage + 1}`)}
+                            onClick={() => router.push(`/admin/reservas?filter=${currentFilter}&page=${currentPage + 1}`)}
                             disabled={currentPage * 50 >= total}
                             className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Next
+                            Siguiente
                         </button>
                     </div>
                 </div>

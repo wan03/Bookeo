@@ -36,8 +36,8 @@ export default async function AdminLayout({
                             </svg>
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
-                            <p className="text-sm text-slate-400">Bookeo Platform Control</p>
+                            <h1 className="text-xl font-bold text-white">Panel Administrativo</h1>
+                            <p className="text-sm text-slate-400">Control de Plataforma Bookeo</p>
                         </div>
                     </div>
 

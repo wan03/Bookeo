@@ -22,10 +22,18 @@ const activityColors: Record<string, string> = {
 }
 
 export default function RecentActivityFeed({ activities }: RecentActivityFeedProps) {
+    const activityTypeLabels: Record<string, string> = {
+        user_signup: 'Registro de Usuario',
+        business_created: 'Negocio Creado',
+        booking_created: 'Reserva Creada',
+        review_posted: 'Reseña Publicada',
+        barter_application: 'Solicitud de Canje'
+    }
+
     if (activities.length === 0) {
         return (
             <div className="text-center py-12 text-slate-500">
-                <p>No recent activity</p>
+                <p>Sin actividad reciente</p>
             </div>
         )
     }
@@ -51,7 +59,7 @@ export default function RecentActivityFeed({ activities }: RecentActivityFeedPro
                                 {activity.entityName}
                             </p>
                             <p className="text-xs text-slate-400 mt-1">
-                                {formatActivityType(activity.activityType)}
+                                {activityTypeLabels[activity.activityType] || activity.activityType}
                             </p>
                             {activity.metadata && Object.keys(activity.metadata).length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-2">
@@ -77,13 +85,6 @@ export default function RecentActivityFeed({ activities }: RecentActivityFeedPro
     )
 }
 
-function formatActivityType(type: string): string {
-    return type
-        .split('_')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-}
-
 function getTimeAgo(timestamp: string): string {
     const now = new Date()
     const then = new Date(timestamp)
@@ -92,9 +93,9 @@ function getTimeAgo(timestamp: string): string {
     const diffHours = Math.floor(diffMs / 3600000)
     const diffDays = Math.floor(diffMs / 86400000)
 
-    if (diffMins < 1) return 'Just now'
-    if (diffMins < 60) return `${diffMins}m ago`
-    if (diffHours < 24) return `${diffHours}h ago`
-    if (diffDays < 7) return `${diffDays}d ago`
+    if (diffMins < 1) return 'Ahora mismo'
+    if (diffMins < 60) return `hace ${diffMins}m`
+    if (diffHours < 24) return `hace ${diffHours}h`
+    if (diffDays < 7) return `hace ${diffDays}d`
     return then.toLocaleDateString()
 }

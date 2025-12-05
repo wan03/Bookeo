@@ -14,12 +14,12 @@ import {
 } from 'lucide-react'
 
 const navigation = [
-    { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { name: 'Users', href: '/admin/users', icon: Users },
-    { name: 'Businesses', href: '/admin/businesses', icon: Building2 },
-    { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
-    { name: 'Influencers', href: '/admin/influencers', icon: Sparkles },
-    { name: 'Settings', href: '/admin/settings', icon: Settings },
+    { name: 'Panel', href: '/admin', icon: LayoutDashboard },
+    { name: 'Usuarios', href: '/admin/usuarios', icon: Users },
+    { name: 'Negocios', href: '/admin/negocios', icon: Building2 },
+    { name: 'Reservas', href: '/admin/reservas', icon: Calendar },
+    { name: 'Influenciadores', href: '/admin/influenciadores', icon: Sparkles },
+    { name: 'Configuración', href: '/admin/configuracion', icon: Settings },
 ]
 
 export default function AdminSidebar() {
@@ -60,11 +60,11 @@ export default function AdminSidebar() {
                     <div className="flex items-center gap-2 mb-3">
                         <Shield className="w-4 h-4 text-blue-400" />
                         <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                            Admin Access
+                            Acceso Adm
                         </span>
                     </div>
                     <p className="text-xs text-slate-400 leading-relaxed">
-                        You have full platform control. All actions are logged and audited.
+                        Tienes control total de la plataforma. Todas las acciones son registradas y auditadas.
                     </p>
                 </div>
             </div>
