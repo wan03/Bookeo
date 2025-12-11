@@ -1,0 +1,240 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic:
+      - link "Bookeo Logo" [ref=e3] [cursor=pointer]:
+        - /url: /
+        - img "Bookeo Logo" [ref=e5]
+      - link [ref=e7] [cursor=pointer]:
+        - /url: /perfil
+        - img [ref=e8]
+    - generic [ref=e12]:
+      - 'button "Ahorro: OFF" [ref=e13]'
+      - generic [ref=e14]:
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - generic [ref=e20]:
+              - heading "Test Barbershop" [level=3] [ref=e21]
+              - generic [ref=e22]: Verificado
+              - generic [ref=e23]: 🔥 El Final
+            - paragraph [ref=e24]: Best cut ever!
+            - generic [ref=e25]:
+              - generic [ref=e26]:
+                - img [ref=e27]
+                - text: Santo Domingo
+              - generic [ref=e30]:
+                - img [ref=e31]
+                - text: "5"
+              - generic [ref=e33]: RD$ 0
+            - link "Reservar Ahora" [ref=e35] [cursor=pointer]:
+              - /url: /reservar/705db1d4-f18f-44ae-ad5b-a0561936858a
+          - generic [ref=e36]:
+            - generic [ref=e37]:
+              - img [ref=e39]
+              - generic [ref=e41]: "0"
+            - generic [ref=e42]:
+              - img [ref=e44]
+              - generic [ref=e46]: Comentarios
+            - generic [ref=e47]:
+              - img [ref=e49]
+              - generic [ref=e55]: Compartir
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - generic [ref=e61]:
+              - heading "Skin Studio" [level=3] [ref=e62]
+              - generic [ref=e63]: Verificado
+              - generic [ref=e64]: 🔥 El Final
+              - generic [ref=e65]: ⚡ Planta Full
+            - paragraph [ref=e66]: "Olvídate de la rasuradora. Piel suave para siempre. ✨🚫🪒 #laser #skincare"
+            - generic [ref=e67]:
+              - generic [ref=e68]:
+                - img [ref=e69]
+                - text: Santo Domingo
+              - generic [ref=e72]:
+                - img [ref=e73]
+                - text: "5"
+              - generic [ref=e75]: RD$ 0
+            - link "Reservar Ahora" [ref=e77] [cursor=pointer]:
+              - /url: /reservar/c31f3e7f-1853-40d7-8243-0de8ba8c059f
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - img [ref=e81]
+              - generic [ref=e83]: "0"
+            - generic [ref=e84]:
+              - img [ref=e86]
+              - generic [ref=e88]: Comentarios
+            - generic [ref=e89]:
+              - img [ref=e91]
+              - generic [ref=e97]: Compartir
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - heading "GS Hairdresser" [level=3] [ref=e104]
+              - generic [ref=e105]: Verificado
+              - generic [ref=e106]: 🔥 El Final
+              - generic [ref=e107]: ⚡ Planta Full
+            - paragraph [ref=e108]: "Corte clásico para el hombre moderno. Atención de primera. ✂️👔 #barber #ejecutivo"
+            - generic [ref=e109]:
+              - generic [ref=e110]:
+                - img [ref=e111]
+                - text: Santo Domingo
+              - generic [ref=e114]:
+                - img [ref=e115]
+                - text: "5"
+              - generic [ref=e117]: RD$ 0
+            - link "Reservar Ahora" [ref=e119] [cursor=pointer]:
+              - /url: /reservar/9105c928-5d91-40b7-b8aa-21d21b001704
+          - generic [ref=e120]:
+            - generic [ref=e121]:
+              - img [ref=e123]
+              - generic [ref=e125]: "0"
+            - generic [ref=e126]:
+              - img [ref=e128]
+              - generic [ref=e130]: Comentarios
+            - generic [ref=e131]:
+              - img [ref=e133]
+              - generic [ref=e139]: Compartir
+        - generic [ref=e143]:
+          - generic [ref=e144]:
+            - generic [ref=e145]:
+              - heading "Virginia Spa" [level=3] [ref=e146]
+              - generic [ref=e147]: Verificado
+              - generic [ref=e148]: 🔥 El Final
+              - generic [ref=e149]: ⚡ Planta Full
+            - paragraph [ref=e150]: "Piel radiante en 60 minutos. ✨🧖‍♀️ #facial #skincare #glow"
+            - generic [ref=e151]:
+              - generic [ref=e152]:
+                - img [ref=e153]
+                - text: Santo Domingo
+              - generic [ref=e156]:
+                - img [ref=e157]
+                - text: "5"
+              - generic [ref=e159]: RD$ 0
+            - link "Reservar Ahora" [ref=e161] [cursor=pointer]:
+              - /url: /reservar/94376fbe-5088-4bf9-ab1f-01b52e379ea8
+          - generic [ref=e162]:
+            - generic [ref=e163]:
+              - img [ref=e165]
+              - generic [ref=e167]: "0"
+            - generic [ref=e168]:
+              - img [ref=e170]
+              - generic [ref=e172]: Comentarios
+            - generic [ref=e173]:
+              - img [ref=e175]
+              - generic [ref=e181]: Compartir
+        - generic [ref=e185]:
+          - generic [ref=e186]:
+            - generic [ref=e187]:
+              - heading "Hola Johis Beauty" [level=3] [ref=e188]
+              - generic [ref=e189]: Verificado
+              - generic [ref=e190]: 🔥 El Final
+              - generic [ref=e191]: ⚡ Planta Full
+            - paragraph [ref=e192]: "Tus pies también merecen amor. 🦶✨ #pedicure #spa #santiago"
+            - generic [ref=e193]:
+              - generic [ref=e194]:
+                - img [ref=e195]
+                - text: Santo Domingo
+              - generic [ref=e198]:
+                - img [ref=e199]
+                - text: "5"
+              - generic [ref=e201]: RD$ 0
+            - link "Reservar Ahora" [ref=e203] [cursor=pointer]:
+              - /url: /reservar/8b5a04d7-c24d-4f2a-88b4-e04c7236349e
+          - generic [ref=e204]:
+            - generic [ref=e205]:
+              - img [ref=e207]
+              - generic [ref=e209]: "0"
+            - generic [ref=e210]:
+              - img [ref=e212]
+              - generic [ref=e214]: Comentarios
+            - generic [ref=e215]:
+              - img [ref=e217]
+              - generic [ref=e223]: Compartir
+        - generic [ref=e227]:
+          - generic [ref=e228]:
+            - generic [ref=e229]:
+              - heading "Virginia Spa" [level=3] [ref=e230]
+              - generic [ref=e231]: Verificado
+              - generic [ref=e232]: 🔥 El Final
+              - generic [ref=e233]: ⚡ Planta Full
+            - paragraph [ref=e234]: "Escápate del estrés de la ciudad. 💆‍♀️🍃 #spa #relax #piantini"
+            - generic [ref=e235]:
+              - generic [ref=e236]:
+                - img [ref=e237]
+                - text: Santo Domingo
+              - generic [ref=e240]:
+                - img [ref=e241]
+                - text: "5"
+              - generic [ref=e243]: RD$ 0
+            - link "Reservar Ahora" [ref=e245] [cursor=pointer]:
+              - /url: /reservar/94376fbe-5088-4bf9-ab1f-01b52e379ea8
+          - generic [ref=e246]:
+            - generic [ref=e247]:
+              - img [ref=e249]
+              - generic [ref=e251]: "0"
+            - generic [ref=e252]:
+              - img [ref=e254]
+              - generic [ref=e256]: Comentarios
+            - generic [ref=e257]:
+              - img [ref=e259]
+              - generic [ref=e265]: Compartir
+        - generic [ref=e269]:
+          - generic [ref=e270]:
+            - generic [ref=e271]:
+              - heading "Hola Johis Beauty" [level=3] [ref=e272]
+              - generic [ref=e273]: Verificado
+              - generic [ref=e274]: 🔥 El Final
+              - generic [ref=e275]: ⚡ Planta Full
+            - paragraph [ref=e276]: "Vibras de verano ✨💅 Diseño exclusivo para @maria. #uñas #santiago #belleza"
+            - generic [ref=e277]:
+              - generic [ref=e278]:
+                - img [ref=e279]
+                - text: Santo Domingo
+              - generic [ref=e282]:
+                - img [ref=e283]
+                - text: "5"
+              - generic [ref=e285]: RD$ 0
+            - link "Reservar Ahora" [ref=e287] [cursor=pointer]:
+              - /url: /reservar/8b5a04d7-c24d-4f2a-88b4-e04c7236349e
+          - generic [ref=e288]:
+            - generic [ref=e289]:
+              - img [ref=e291]
+              - generic [ref=e293]: "0"
+            - generic [ref=e294]:
+              - img [ref=e296]
+              - generic [ref=e298]: Comentarios
+            - generic [ref=e299]:
+              - img [ref=e301]
+              - generic [ref=e307]: Compartir
+    - navigation [ref=e308]:
+      - generic [ref=e309]:
+        - link "Inicio" [ref=e310] [cursor=pointer]:
+          - /url: /
+          - img [ref=e311]
+          - generic [ref=e314]: Inicio
+        - link "Explorar" [ref=e315] [cursor=pointer]:
+          - /url: /explorar
+          - img [ref=e316]
+          - generic [ref=e319]: Explorar
+        - link "Canjes" [ref=e320] [cursor=pointer]:
+          - /url: /creador/intercambios
+          - img [ref=e322]
+          - generic [ref=e325]: Canjes
+        - link "Citas" [ref=e326] [cursor=pointer]:
+          - /url: /citas
+          - img [ref=e327]
+          - generic [ref=e329]: Citas
+        - link "Negocio" [ref=e330] [cursor=pointer]:
+          - /url: /negocio/panel
+          - img [ref=e331]
+          - generic [ref=e334]: Negocio
+        - link "Perfil" [ref=e335] [cursor=pointer]:
+          - /url: /perfil
+          - img [ref=e336]
+          - generic [ref=e339]: Perfil
+  - button "Open Next.js Dev Tools" [ref=e345] [cursor=pointer]:
+    - img [ref=e346]
+  - alert [ref=e349]
+```

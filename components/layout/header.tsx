@@ -3,22 +3,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
-import { useEffect, useState } from 'react'
+import { useAuth } from '@/components/providers/auth-provider'
 import { User } from 'lucide-react'
 
 export default function Header() {
     const pathname = usePathname()
-    const [user, setUser] = useState<any>(null)
-    const supabase = createClient()
-
-    useEffect(() => {
-        const getUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            setUser(user)
-        }
-        getUser()
-    }, [])
+    // Using global auth state instead of local fetching
+    const { user, loading } = useAuth()
 
     // Don't show global header on business dashboard
     if (pathname?.startsWith('/negocio')) {

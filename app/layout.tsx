@@ -14,6 +14,10 @@ import Header from "@/components/layout/header";
 
 // ... (keep existing imports)
 
+import AuthProvider from '@/components/providers/auth-provider'
+
+// ... (keep existing imports)
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,11 +26,13 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark">
       <body className={`${inter.className} bg-black text-white min-h-screen pb-20`}>
-        <main className="min-h-screen bg-zinc-900 relative overflow-hidden">
-          <Header />
-          {children}
-          <MobileNav />
-        </main>
+        <AuthProvider>
+          <main className="min-h-screen bg-zinc-900 relative overflow-hidden">
+            <Header />
+            {children}
+            <MobileNav />
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );
